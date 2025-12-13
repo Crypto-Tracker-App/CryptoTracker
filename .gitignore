@@ -188,6 +188,15 @@ cython_debug/
 #  you could uncomment the following to ignore the entire vscode folder
 # .vscode/
 
+# Kubernetes secrets (do not commit real secrets)
+infrastructure/kubernetes/secrets/db-secrets.yaml
+infrastructure/kubernetes/secrets/*secrets*.yaml
+!infrastructure/kubernetes/secrets/*.template
+
+# Local env files
+.env
+.env.*
+
 # Ruff stuff:
 .ruff_cache/
 
