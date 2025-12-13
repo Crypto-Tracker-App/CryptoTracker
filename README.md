@@ -415,22 +415,6 @@ docker-compose up
 # Access services
 curl http://localhost:5001/api/users  # User Service
 ```
-
-### Testing
-
-```bash
-# Create a user
-curl -X POST http://localhost:5001/api/users \
-  -H "Content-Type: application/json" \
-  -d '{"username":"test","email":"test@example.com","password":"pass123"}'
-
-# List users
-curl http://localhost:5001/api/users
-
-# Health check
-curl http://localhost:5001/health
-```
-
 ---
 
 ## Environment Variables
