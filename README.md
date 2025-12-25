@@ -381,29 +381,65 @@ See [`infrastructure/kubernetes/README.md`](infrastructure/kubernetes/README.md)
 
 ### Project Structure
 
+**Standard service repository structure:**
 ```
-CryptoTracker/
-├── services/
-│   ├── userService/           # User management microservice
-│   │   ├── app/
-│   │   │   ├── __init__.py    # App factory
-│   │   │   ├── models.py      # Database models
-│   │   │   ├── routes.py      # API endpoints
-│   │   └── run.py             # Entry point
-│   │   ├── Dockerfile
-│   │   └── requirements.txt
-│   └── (more services...)
-├── infrastructure/
-│   └── kubernetes/            # Kubernetes manifests
-│       ├── deployments/
-│       ├── services/
-│       ├── storage/
-│       ├── configmaps/
-│       ├── ingress/
-│       └── README.md
-├── docker-compose.yml         # Local development
-├── DEPLOYMENT_GUIDE.md        # AKS deployment guide
-└── README.md                  # This file
+<service-name>/
+├── .github/
+│   └── workflows/
+│       ├── ci.yml              # Build and test
+│       ├── cd-dev.yml          # Deploy to dev
+│       └── cd-prod.yml         # Deploy to prod
+├── src/                        # or app/
+│   ├── __init__.py
+│   ├── models.py
+│   ├── routes.py
+│   ├── services.py             # Business logic
+│   └── schemas.py              # Request/response schemas
+├── tests/
+│   ├── unit/
+│   └── integration/
+├── k8s/                        # Service-specific manifests
+│   ├── deployment.yaml
+│   ├── service.yaml
+│   ├── configmap.yaml
+│   └── hpa.yaml                # Horizontal Pod Autoscaler
+├── migrations/                 # Database migrations (Alembic)
+├── Dockerfile
+├── requirements.txt
+├── .dockerignore
+├── .gitignore
+├── README.md
+├── CHANGELOG.md
+└── pyproject.toml              # Poetry or setup config
+```
+
+**Infrastructure repository structure:**
+```
+infrastructure/
+├── kubernetes/
+│   ├── base/                   # Shared base configs
+│   │   ├── ingress.yaml
+│   │   ├── namespace.yaml
+│   │   └── monitoring.yaml
+│   ├── overlays/               # Kustomize overlays
+│   │   ├── dev/
+│   │   └── prod/
+│   └── secrets/                # Secret templates
+├── terraform/                  # IaC for Azure resources
+│   ├── modules/
+│   │   ├── aks/
+│   │   ├── acr/
+│   │   └── postgresql/
+│   ├── environments/
+│   │   ├── dev/
+│   │   └── prod/
+│   └── main.tf
+├── helm/                       # Helm charts (optional)
+│   └── cryptotracker/
+├── scripts/
+│   ├── deploy.sh
+│   └── rollback.sh
+└── README.md
 ```
 
 ### Local Development
