@@ -143,7 +143,7 @@ curl -X POST http://localhost:8000/api/v1/alerts \
 
 ## OpenAPI Specification
 
-This API follows the OpenAPI 3.0 specification. The complete specification can be accessed at `/openapi.json` when the server is running.
+This API follows the OpenAPI 3.1.0 specification. The complete specification can be accessed at `/openapi.json` when the server is running.
 
 Key features of the OpenAPI implementation:
 - Comprehensive endpoint documentation

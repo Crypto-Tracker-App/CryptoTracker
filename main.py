@@ -211,18 +211,19 @@ async def root():
 )
 async def get_cryptocurrencies(
     limit: int = Query(default=10, ge=1, le=100, description="Maximum number of results to return"),
-    sort_by: str = Query(default="market_cap", description="Field to sort by (market_cap, price, volume)")
+    sort_by: str = Query(default="market_cap", pattern="^(market_cap|current_price|volume_24h)$", description="Field to sort by (market_cap, current_price, volume_24h)")
 ):
     """
     Get a list of cryptocurrencies with optional filtering and sorting.
     
     - **limit**: Maximum number of cryptocurrencies to return (1-100)
-    - **sort_by**: Sort results by market_cap, price, or volume
+    - **sort_by**: Sort results by market_cap, current_price, or volume_24h
     
     Returns a list of cryptocurrency objects with current market data.
     """
-    # Simple implementation - return limited results
-    return cryptocurrencies_db[:limit]
+    # Sort the cryptocurrencies
+    sorted_cryptos = sorted(cryptocurrencies_db, key=lambda x: x.get(sort_by, 0), reverse=True)
+    return sorted_cryptos[:limit]
 
 
 @app.get(
@@ -290,9 +291,9 @@ async def add_portfolio_holding(holding: PortfolioHolding):
         raise HTTPException(status_code=400, detail=f"Cryptocurrency {holding.symbol} not found")
     
     # Assign ID
-    holding.id = len(portfolio_db) + 1
+    holding.id = max([h.get("id", 0) for h in portfolio_db], default=0) + 1
     holding.symbol = holding.symbol.upper()
-    portfolio_db.append(holding.dict())
+    portfolio_db.append(holding.model_dump())
     return holding
 
 
@@ -376,9 +377,9 @@ async def create_alert(alert: PriceAlert):
             raise HTTPException(status_code=400, detail="percentage_change is required for price change alerts")
     
     # Assign ID
-    alert.id = len(alerts_db) + 1
+    alert.id = max([a.get("id", 0) for a in alerts_db], default=0) + 1
     alert.symbol = alert.symbol.upper()
-    alerts_db.append(alert.dict())
+    alerts_db.append(alert.model_dump())
     return alert
 
 
