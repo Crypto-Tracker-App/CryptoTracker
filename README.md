@@ -6,7 +6,7 @@ A cryptocurrency monitoring and portfolio management platform built on Azure clo
 
 The Crypto Tracker Application is a full-stack solution designed to help users monitor cryptocurrency prices, manage their portfolios, and receive alerts for price movements. Built with modern cloud-native technologies, the application is containerized and orchestrated using Kubernetes on Azure Kubernetes Service (AKS).
 
-**Live Application:** [http://crypto-tracker.norwayeast.cloudapp.azure.com/](http://crypto-tracker.norwayeast.cloudapp.azure.com/)
+**Live Application:** [https://crypto-tracker.norwayeast.cloudapp.azure.com/](http://crypto-tracker.norwayeast.cloudapp.azure.com/)
 
 ## Languages & Technologies
 
